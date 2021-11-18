@@ -62,3 +62,14 @@ VALUES (1, 1),
   (9, 5),
   (10, 5);
   
+
+  -- SELECT musicians.first_name, instruments.type 
+  -- FROM musicians
+  -- JOIN musician_instruments ON (musicians.id == musician_instruments.musician_id)
+  -- JOIN instruments ON (instruments.id == musician_instruments.instrument_id);
+
+  SELECT musicians.first_name, musicians.last_name
+  FROM musicians
+  JOIN musician_instruments ON (musicians.id == musician_instruments.musician_id)
+  JOIN instruments ON (instruments.id == musician_instruments.instrument_id)
+  WHERE instruments.type = 'piano';

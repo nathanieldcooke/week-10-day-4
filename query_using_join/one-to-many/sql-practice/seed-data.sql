@@ -1,11 +1,27 @@
+-- Tells SQLite to enforce foreign key restrictions
+PRAGMA foreign_keys = 1;
 DROP TABLE IF EXISTS albums;
+DROP TABLE IF EXISTS bands;
+CREATE TABLE bands (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name VARCHAR(100)
+);
 CREATE TABLE albums (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   title VARCHAR(100) NOT NULL,
   band_id INTEGER,
   year INTEGER NOT NULL,
-  num_sold INTEGER NOT NULL DEFAULT 0
+  num_sold INTEGER NOT NULL DEFAULT 0,
+  FOREIGN KEY (band_id) REFERENCES bands(id) ON DELETE CASCADE
 );
+
+INSERT INTO bands
+VALUES (1, 'The Falling Box'),
+  (2, 'America The Piano'),
+  (3, 'Loved Autumn'),
+  (4, 'Playin Sound'),
+  (5, 'The King River');
+
 INSERT INTO albums (title, band_id, year, num_sold)
 VALUES ('The Falling Box', 1, 2015, 25000),
   ('Again', 1, 2018, 30000),
@@ -20,3 +36,11 @@ VALUES ('The Falling Box', 1, 2015, 25000),
   ('The King River', 5, 2017, 85000),
   ('Under Water', 5, 2020, 106000),
   ('Another Fork', 5, 2021, 140000);
+  
+-- SELECT bands.name, albums.title FROM bands
+-- JOIN albums ON (bands.id == albums.band_id);
+
+
+SELECT bands.name FROM bands
+JOIN albums ON (bands.id == albums.band_id)
+WHERE albums.num_sold < 20000;
